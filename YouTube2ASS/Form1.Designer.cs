@@ -70,7 +70,7 @@
             this.textBox_height.Name = "textBox_height";
             this.textBox_height.Size = new System.Drawing.Size(100, 31);
             this.textBox_height.TabIndex = 6;
-            this.textBox_height.Text = "50";
+            this.textBox_height.Text = "54";
             // 
             // label1
             // 
@@ -130,8 +130,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(1439, 31);
             this.textBox1.TabIndex = 13;
-            this.textBox1.Text = "Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&HC0000000,&H00000000,0,0,0,0,100,1" +
-    "00,0,0,3,2,0,1,10,10,10,1";
+            this.textBox1.Text = "Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&HC0000000,&H00000000,0,0,0,0,100,100,0,0,3,0.07,0,1,10,10,10,1";
             // 
             // label4
             // 
