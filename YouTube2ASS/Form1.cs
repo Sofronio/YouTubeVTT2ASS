@@ -153,13 +153,13 @@ namespace YouTube2ASS
                     //Karaoke process
                     string str_CurrentLine1 = "Dialogue: 0,"
                         + fn_msTOString(int_Current1Start) + ","
-                        + fn_msTOString(int_Current1End) + ",Default,,0,0,0,,";
+                        + fn_msTOString(int_Current1End) + ",YouTubeAuto,,0,0,0,,";
                     string str_CurrentLine2 = "Dialogue: 0,"
                         + fn_msTOString(int_Current2Start) + ","
-                        + fn_msTOString(int_Current2End) + ",Default,,0,0,0,,";
+                        + fn_msTOString(int_Current2End) + ",YouTubeAuto,,0,0,0,,";
                     string str_CurrentLine3 = "Dialogue: 0,"
                         + fn_msTOString(int_Current3Start) + ","
-                        + fn_msTOString(int_Current3End) + ",Default,,0,0,0,,";
+                        + fn_msTOString(int_Current3End) + ",YouTubeAuto,,0,0,0,,";
 
                     bool bool_IsFirstWord = true;
                     rx = new Regex(@"<\d{2}:\d{2}:\d{2}\.\d{3}>");
