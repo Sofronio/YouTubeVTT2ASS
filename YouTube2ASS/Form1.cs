@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,7 +40,8 @@ namespace YouTube2ASS
                 {
                     str_json += strlist_json_item;
                 }
-                json_setting _json_setting = JsonConvert.DeserializeObject<json_setting>(str_json.Substring(1, str_json.Length - 2));
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                json_setting _json_setting = js.Deserialize<json_setting>(str_json.Substring(1, str_json.Length - 2));
 
                 textBox_height.Text = _json_setting.int_height.ToString();
                 textBox_x.Text = _json_setting.int_x.ToString();
@@ -67,7 +66,8 @@ namespace YouTube2ASS
                 str_style = input_style,
                 bool_script = input_script
             });
-            string json = JsonConvert.SerializeObject(_json_setting.ToArray(), Formatting.Indented);
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string json = js.Serialize(_json_setting.ToArray());
             System.IO.File.WriteAllText(str_path + "setting.json", json);
         }
 
@@ -122,7 +122,8 @@ namespace YouTube2ASS
             this.AllowDrop = true;
             this.DragEnter += new DragEventHandler(Form1_DragEnter);
             this.DragDrop += new DragEventHandler(Form1_DragDrop);
-            dynamic json_setting = JsonConvert.DeserializeObject("{'int_x':196,'int_y':1024,'int_height':54,'str_style':'Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&HC0000000,&H00000000,0,0,0,0,100,100,0,0,3,0.07,0,1,10,10,10,1'}");
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            dynamic json_setting = js.DeserializeObject("{'int_x':196,'int_y':1024,'int_height':54,'str_style':'Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&HC0000000,&H00000000,0,0,0,0,100,100,0,0,3,0.07,0,1,10,10,10,1'}");
             fn_loadSetting();
             try
             {
