@@ -31,22 +31,29 @@ namespace YouTube2ASS
 
         void fn_loadSetting()
         {
-            var strlist_json = File.ReadAllLines(str_path + "setting.json");
-            List<string> list_strlist_json = new List<string>(strlist_json);
-
-            //cut off [] in json file
-            string str_json = "";
-            foreach (var strlist_json_item in strlist_json)
+            try
             {
-                str_json += strlist_json_item;
-            }
-            json_setting _json_setting = JsonConvert.DeserializeObject<json_setting>(str_json.Substring(1, str_json.Length - 2));
+                var strlist_json = File.ReadAllLines(str_path + "setting.json");
+                List<string> list_strlist_json = new List<string>(strlist_json);
 
-            textBox_height.Text = _json_setting.int_height.ToString();
-            textBox_x.Text = _json_setting.int_x.ToString();
-            textBox_y.Text = _json_setting.int_y.ToString();
-            textBox_style.Text = _json_setting.str_style.ToString();
-            checkBox_writeScript.Checked = Convert.ToBoolean(_json_setting.bool_script);
+                //cut off [] in json file
+                string str_json = "";
+                foreach (var strlist_json_item in strlist_json)
+                {
+                    str_json += strlist_json_item;
+                }
+                json_setting _json_setting = JsonConvert.DeserializeObject<json_setting>(str_json.Substring(1, str_json.Length - 2));
+
+                textBox_height.Text = _json_setting.int_height.ToString();
+                textBox_x.Text = _json_setting.int_x.ToString();
+                textBox_y.Text = _json_setting.int_y.ToString();
+                textBox_style.Text = _json_setting.str_style.ToString();
+                checkBox_writeScript.Checked = Convert.ToBoolean(_json_setting.bool_script);
+            }
+            catch
+            {
+
+            }
         }
 
         void fn_saveSetting(int input_x, int input_y, int input_height, string input_style, bool input_script)
@@ -82,7 +89,7 @@ namespace YouTube2ASS
                     string str_fileOutput = Regex.Replace(input, pattern, replacement);
                     //20xx-xx-xx_xxxxx.youtube
 
-                    replacement = @"$2-$3-$4$5.mp4";
+                    replacement = @"$2$3$4$5$6.mp4";
                     string str_video = Regex.Replace(input, pattern, replacement);
                     //original YouTube video
 
@@ -101,9 +108,9 @@ namespace YouTube2ASS
                     string str_nvencc = "NVEncC.exe --avs -i \"" + str_fileOutput + ".avs\" --vbr 3500 -o \"" + str_fileOutput + ".264\"";
                     File.WriteAllText(str_fileOutputPath + "doit.cmd", str_nvencc);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    this.Text = e.ToString();
                 }
             }
         }
@@ -190,10 +197,7 @@ namespace YouTube2ASS
         }
 
         private void button_doit_Click(object sender, EventArgs e)
-        {
-            richTextBox1.Clear();
-
-
+        {            
             List<string> list_str_result = new List<string>();
 
             try
@@ -341,14 +345,11 @@ namespace YouTube2ASS
                             int_lastTime = int_nowTime;
                         }
                     }
-                    //richTextBox1.Text += str_CurrentLine1 + "\r\n" + str_CurrentLine2 + "\r\n" + str_CurrentLine3 + "\r\n";
                     list_str_result.Add(str_CurrentLine1);
                     list_str_result.Add(str_CurrentLine2);
                     list_str_result.Add(str_CurrentLine3);
                 }
             }
-            foreach (var item in list_str_result)
-                richTextBox1.Text += item.ToString() + "\r\n";
             if (str_fileInput != "")
             {
                 string input = str_fileInput;

@@ -37,7 +37,6 @@
             this.textBox_x = new System.Windows.Forms.TextBox();
             this.textBox_y = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.textBox_style = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.button_saveSetting = new System.Windows.Forms.Button();
@@ -117,15 +116,6 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Y:";
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(40, 597);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1565, 455);
-            this.richTextBox1.TabIndex = 12;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.WordWrap = false;
-            // 
             // textBox_style
             // 
             this.textBox_style.Location = new System.Drawing.Point(145, 511);
@@ -168,12 +158,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1639, 1095);
+            this.ClientSize = new System.Drawing.Size(1639, 584);
             this.Controls.Add(this.checkBox_writeScript);
             this.Controls.Add(this.button_saveSetting);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox_style);
-            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox_y);
             this.Controls.Add(this.label2);
@@ -184,7 +173,7 @@
             this.Controls.Add(this.listBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "YouTube2ASS v0.01 by Sofronio.cn";
+            this.Text = "YouTube2ASS v0.0.2 by Sofronio.cn";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,7 +189,6 @@
         private System.Windows.Forms.TextBox textBox_x;
         private System.Windows.Forms.TextBox textBox_y;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox_style;
         private System.Windows.Forms.Button button_saveSetting;
