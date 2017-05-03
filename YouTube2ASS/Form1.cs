@@ -176,7 +176,7 @@ namespace YouTube2ASS
             int int_sec = (int_input - int_hour * 1000 * 3600 - int_min * 1000 * 60) / 1000;
             int int_ms = int_input - int_hour * 1000 * 3600 - int_min * 1000 * 60 - int_sec * 1000;
             //0:00:17.01
-            string str_result = int_hour.ToString() + ":" + int_min.ToString("D2") + ":" + int_sec.ToString("D2") + "." + int_ms.ToString("D3");
+            string str_result = int_hour.ToString() + ":" + int_min.ToString("D2") + ":" + int_sec.ToString("D2") + "." + (int_ms/10).ToString("D2");
             return str_result;
         }
 
