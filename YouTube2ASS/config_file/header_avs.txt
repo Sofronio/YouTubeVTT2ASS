@@ -1,0 +1,11 @@
+LoadPlugin("E:\Bilibili\Tools\小丸工具箱七七版rev117\tools\avsfilter\VSFilter.DLL")
+#加载VSFilter
+LoadPlugin("E:\Bilibili\Tools\小丸工具箱七七版rev117\tools\avsfilter\LSMASHSource.dll")
+#加载FFmpeg源
+V_str = "[video_filename]"
+S_str = "[subtitle_filename]"
+V = LWLibavVideoSource(V_str, stream_index = -1, threads = 0, cache = true, seek_mode = 0, seek_threshold = 10, dr = false, fpsnum = 0, fpsden = 1, repeat = false, dominance = 0, stacked = false, format = "")
+A = LWLibavAudioSource(source = V_str, stream_index = -1, cache = true, av_sync = false, layout = "", rate = 0)
+AudioDub(V, A)
+TextSub(S_str)
+ConvertToYV12()

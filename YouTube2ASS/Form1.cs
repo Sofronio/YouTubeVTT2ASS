@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,24 +10,128 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
+
 
 namespace YouTube2ASS
 {
     public partial class Form1 : Form
     {
+        string str_path = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + @"\";
+        string str_fileInput = "";
+        public class json_setting
+        {
+            public int int_x { get; set; }
+            public int int_y { get; set; }
+            public int int_height { get; set; }
+            public string str_style { get; set; }
+            public bool bool_script { get; set; }
+        }
+
+        void fn_loadSetting()
+        {
+            var strlist_json = File.ReadAllLines(str_path + "setting.json");
+            List<string> list_strlist_json = new List<string>(strlist_json);
+
+            //cut off [] in json file
+            string str_json = "";
+            foreach (var strlist_json_item in strlist_json)
+            {
+                str_json += strlist_json_item;
+            }
+            json_setting _json_setting = JsonConvert.DeserializeObject<json_setting>(str_json.Substring(1, str_json.Length - 2));
+
+            textBox_height.Text = _json_setting.int_height.ToString();
+            textBox_x.Text = _json_setting.int_x.ToString();
+            textBox_y.Text = _json_setting.int_y.ToString();
+            textBox_style.Text = _json_setting.str_style.ToString();
+            checkBox_writeScript.Checked = Convert.ToBoolean(_json_setting.bool_script);
+        }
+
+        void fn_saveSetting(int input_x, int input_y, int input_height, string input_style, bool input_script)
+        {
+            List<json_setting> _json_setting = new List<json_setting>();
+            _json_setting.Add(new json_setting()
+            {
+                int_x = input_x,
+                int_y = input_y,
+                int_height = input_height,
+                str_style = input_style,
+                bool_script = input_script
+            });
+            string json = JsonConvert.SerializeObject(_json_setting.ToArray(), Formatting.Indented);
+            System.IO.File.WriteAllText(str_path + "setting.json", json);
+        }
+
+        void fn_writeScript()
+        {
+            if (str_fileInput != "")
+            {
+                List<string> list_avs = new List<string>();
+                try
+                {
+                    string input = str_fileInput;
+                    string pattern = @"(.*)(\d{4})(\d{2})(\d{2})(.*)(-[-0-9A-Za-z_]{11})(\.[A-Za-z]*)(\.vtt)";
+                    //                   |     |     |       |    |  |        |         |   |        |
+                    //                  path  num*4 num*2 num*2  any - youtube_vid_ID11 dot lang   .vtt
+                    //                    1    2     3      4     5   (       6        )        7    8
+                    //keep path, and delete yotuube_vid_id and extname
+                    string replacement = @"$2-$3-$4$5.youtube";
+                    //add dash between yyyy mm dd, and add ".youtube" extnamef
+                    string str_fileOutput = Regex.Replace(input, pattern, replacement);
+                    //20xx-xx-xx_xxxxx.youtube
+
+                    replacement = @"$2-$3-$4$5.mp4";
+                    string str_video = Regex.Replace(input, pattern, replacement);
+                    //original YouTube video
+
+                    replacement = @"$1";
+                    string str_fileOutputPath = Regex.Replace(input, pattern, replacement);
+                    //path
+
+                    var strlist_header = File.ReadAllLines(str_path + "header_avs.txt",Encoding.GetEncoding(936));
+                    List<string> list_str_header = new List<string>(strlist_header);
+                    foreach (var str_header in list_str_header)
+                    {
+                        list_avs.Add(str_header.ToString().Replace("[video_filename]", str_video).Replace("[subtitle_filename]", str_fileOutput + ".ass"));
+                    }
+                    File.WriteAllLines(str_fileOutputPath + str_fileOutput + ".avs", list_avs, Encoding.GetEncoding(936));
+
+                    string str_nvencc = "NVEncC.exe --avs -i \"" + str_fileOutput + ".avs\" --vbr 3500 -o \"" + str_fileOutput + ".264\"";
+                    File.WriteAllText(str_fileOutputPath + "doit.cmd", str_nvencc);
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
+
         public Form1()
         {
             InitializeComponent();
             this.AllowDrop = true;
             this.DragEnter += new DragEventHandler(Form1_DragEnter);
             this.DragDrop += new DragEventHandler(Form1_DragDrop);
+            dynamic json_setting = JsonConvert.DeserializeObject("{'int_x':196,'int_y':1024,'int_height':54,'str_style':'Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&HC0000000,&H00000000,0,0,0,0,100,100,0,0,3,0.07,0,1,10,10,10,1'}");
+            fn_loadSetting();
+            try
+            {
+                fn_loadSetting();
+            }
+            catch
+            {
+
+            }
         }
 
         void Form1_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
-        }
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }        
 
         void Form1_DragDrop(object sender, DragEventArgs e)
         {
@@ -41,7 +146,8 @@ namespace YouTube2ASS
                         listBox1.Items.Add(stRead.ReadLine());
                     }
                 }
-            }                
+            }
+            str_fileInput = files[0];
         }
 
         private int fn_stringToMs(string str_input)
@@ -87,6 +193,30 @@ namespace YouTube2ASS
         {
             richTextBox1.Clear();
 
+
+            List<string> list_str_result = new List<string>();
+
+            try
+            {
+                var strlist_header = File.ReadAllLines(str_path + "header_ass.txt");
+                List<string> list_str_header = new List<string>(strlist_header);
+                foreach (var str_header in list_str_header)
+                {
+                    list_str_result.Add(str_header.ToString());
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                list_str_result.Add(textBox_style.Text);
+                list_str_result.Add("");
+                list_str_result.Add("[Events]");
+                list_str_result.Add("Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
+            }
+
             for (int i=0;i<listBox1.Items.Count;i++)
             {
                 int int_CurrentStart = 0;
@@ -119,9 +249,6 @@ namespace YouTube2ASS
                     int int_Current2End = int_NextStart - 1;
                     int int_Current3Start = int_Current2End;
                     int int_Current3End = int_Current3Start + 500;
-                    //int int_PosX = 417;
-                    //int int_PosY = 750;
-                    //int int_LineHeight = 40;
                     int int_PosX = Convert.ToInt32(textBox_x.Text);
                     int int_PosY = Convert.ToInt32(textBox_y.Text);
                     int int_LineHeight = Convert.ToInt32(textBox_height.Text);
@@ -214,9 +341,38 @@ namespace YouTube2ASS
                             int_lastTime = int_nowTime;
                         }
                     }
-                    richTextBox1.Text += str_CurrentLine1 + "\r\n" + str_CurrentLine2 + "\r\n" + str_CurrentLine3 + "\r\n";
+                    //richTextBox1.Text += str_CurrentLine1 + "\r\n" + str_CurrentLine2 + "\r\n" + str_CurrentLine3 + "\r\n";
+                    list_str_result.Add(str_CurrentLine1);
+                    list_str_result.Add(str_CurrentLine2);
+                    list_str_result.Add(str_CurrentLine3);
                 }
-            }            
+            }
+            foreach (var item in list_str_result)
+                richTextBox1.Text += item.ToString() + "\r\n";
+            if (str_fileInput != "")
+            {
+                string input = str_fileInput;
+                string pattern = @"^(.*)(\d{4})(\d{2})(\d{2})(.*)(-[-0-9A-Za-z_]{11}\.[A-Za-z]*\.vtt)";
+                //                 |  |     |     |       |    |  |        |         |   |        |
+                //             start path  num*4 num*2 num*2  any - youtube_vid_ID11 dot lang   .vtt
+                //                     1    2     3      4     5   (              6                ) 
+                //keep path, and delete yotuube_vid_id and extname
+                string replacement = @"$1$2-$3-$4$5.youtube.ass";
+                //add dash between yyyy mm dd, and add ".youtube.ass" extnamef
+                string str_fileOutput = Regex.Replace(input, pattern, replacement);
+
+                File.WriteAllLines(str_fileOutput, list_str_result);
+            }
+
+            //write script
+            if (checkBox_writeScript.Checked == true)
+                fn_writeScript();
+
+        }
+
+        private void button_saveSetting_Click(object sender, EventArgs e)
+        {
+            fn_saveSetting(Convert.ToInt32(textBox_x.Text), Convert.ToInt32(textBox_y.Text), Convert.ToInt32(textBox_height.Text), textBox_style.Text, checkBox_writeScript.Checked);
         }
     }
 }

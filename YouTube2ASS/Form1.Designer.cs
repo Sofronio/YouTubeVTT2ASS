@@ -38,8 +38,10 @@
             this.textBox_y = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_style = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.button_saveSetting = new System.Windows.Forms.Button();
+            this.checkBox_writeScript = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // listBox1
@@ -124,13 +126,14 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
             // 
-            // textBox1
+            // textBox_style
             // 
-            this.textBox1.Location = new System.Drawing.Point(145, 511);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1439, 31);
-            this.textBox1.TabIndex = 13;
-            this.textBox1.Text = "Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&HC0000000,&H00000000,0,0,0,0,100,100,0,0,3,0.07,0,1,10,10,10,1";
+            this.textBox_style.Location = new System.Drawing.Point(145, 511);
+            this.textBox_style.Name = "textBox_style";
+            this.textBox_style.Size = new System.Drawing.Size(1439, 31);
+            this.textBox_style.TabIndex = 13;
+            this.textBox_style.Text = "Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&HC0000000,&H00000000,0,0,0,0,1" +
+    "00,100,0,0,3,0.07,0,1,10,10,10,1";
             // 
             // label4
             // 
@@ -141,13 +144,35 @@
             this.label4.TabIndex = 14;
             this.label4.Text = "样式";
             // 
+            // button_saveSetting
+            // 
+            this.button_saveSetting.Location = new System.Drawing.Point(1102, 353);
+            this.button_saveSetting.Name = "button_saveSetting";
+            this.button_saveSetting.Size = new System.Drawing.Size(418, 105);
+            this.button_saveSetting.TabIndex = 15;
+            this.button_saveSetting.Text = "Save Setting";
+            this.button_saveSetting.UseVisualStyleBackColor = true;
+            this.button_saveSetting.Click += new System.EventHandler(this.button_saveSetting_Click);
+            // 
+            // checkBox_writeScript
+            // 
+            this.checkBox_writeScript.AutoSize = true;
+            this.checkBox_writeScript.Location = new System.Drawing.Point(619, 469);
+            this.checkBox_writeScript.Name = "checkBox_writeScript";
+            this.checkBox_writeScript.Size = new System.Drawing.Size(388, 25);
+            this.checkBox_writeScript.TabIndex = 16;
+            this.checkBox_writeScript.Text = "write avisynth and nvencc script";
+            this.checkBox_writeScript.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1639, 1095);
+            this.Controls.Add(this.checkBox_writeScript);
+            this.Controls.Add(this.button_saveSetting);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox_style);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox_y);
@@ -177,7 +202,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_style;
+        private System.Windows.Forms.Button button_saveSetting;
+        private System.Windows.Forms.CheckBox checkBox_writeScript;
     }
 }
 
