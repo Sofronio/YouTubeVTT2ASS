@@ -1,7 +1,12 @@
 # YouTubeVTT2ASS
-Convert YouTube Auto VTT subtitle to ASS subtitle with rolling and Karaoke effect
+Convert YouTube Auto VTT subtitle to ASS subtitle with rolling and Karaoke effect<br />
+It'll have the same effect as you see on YouTube's webpage.
 
 ## Change log
+### v.0.0.3
+Fix latest YouTube VTT support<br />
+Reconstruct VTT processing
+
 ### v.0.0.2
 Add ass subtitle file output<br />
 Add video encoding avisynth and nvencc file output
