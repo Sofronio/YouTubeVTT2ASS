@@ -135,7 +135,7 @@
             this.textBox_style.Name = "textBox_style";
             this.textBox_style.Size = new System.Drawing.Size(787, 21);
             this.textBox_style.TabIndex = 13;
-            this.textBox_style.Text = "Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&H46000000,&H00000000,0,0,0,0,1" +
+            this.textBox_style.Text = "Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&HC0000000,&H00000000,0,0,0,0,1" +
     "00,100,0,0,3,0.07,0,1,10,10,10,1";
             // 
             // label4

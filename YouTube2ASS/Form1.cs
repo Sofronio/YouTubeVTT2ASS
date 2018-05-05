@@ -259,7 +259,7 @@ namespace YouTube2ASS
             this.DragEnter += new DragEventHandler(Form1_DragEnter);
             this.DragDrop += new DragEventHandler(Form1_DragDrop);
             JavaScriptSerializer js = new JavaScriptSerializer();
-            dynamic json_setting = js.DeserializeObject("{'int_x':196,'int_y':1024,'int_height':54,'str_style':'Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&H46000000,&H00000000,0,0,0,0,100,100,0,0,3,0.07,0,1,10,10,10,1'}");
+            dynamic json_setting = js.DeserializeObject("{'int_x':196,'int_y':1024,'int_height':54,'str_style':'Style: YouTubeAuto,Arial,20,&H00FFFFFF,&HFF0000FF,&HC0000000,&H00000000,0,0,0,0,100,100,0,0,3,0.07,0,1,10,10,10,1'}");
             fn_loadSetting();
             try
             {
